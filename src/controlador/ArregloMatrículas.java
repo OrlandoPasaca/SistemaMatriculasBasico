@@ -128,7 +128,7 @@ public class ArregloMatrículas {
 		List<Alumno> listAlumno=new ArrayList<>();
 		for(Matricula matricula:mat)
 		{
-			if(matricula.getCurso()==curso)
+			if(matricula.getCurso().getCodCurso()==curso.getCodCurso())
 			{
 				listAlumno.add(matricula.getAlumno());
 			}

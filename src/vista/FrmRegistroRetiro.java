@@ -85,6 +85,7 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 	ArregloRetiros arRetiros = new ArregloRetiros();
 	ArregloMatrículas arrMatriculas=new ArregloMatrículas();
 	ArregloCursos arrCursos=new ArregloCursos();
+	ArregloAlumnos arrAlumnos=new ArregloAlumnos();
 	
 	/**
 	 * Launch the application.
@@ -389,7 +390,10 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 		int opcion;
 		opcion = JOptionPane.showConfirmDialog(this,"Seguro eliminar el retiro con codigo ".concat(String.valueOf(numRetiro)),"Sistema",JOptionPane.YES_NO_OPTION);
 		if(opcion == 0){
-			retiro.getMatricula().getAlumno().setEstado(1);
+			Alumno alumno= arrAlumnos.buscar(retiro.getMatricula().getAlumno().getCodigoAlumno());
+			alumno.setEstado(1);
+			arrAlumnos.crearTxt(ArregloAlumnos.getLista());
+			retiro.getMatricula().setAlumno(alumno);
 			ArregloRetiros.getR().remove(retiro);
 			arRetiros.crearDat(ArregloRetiros.getR());
 			listado();
@@ -450,10 +454,13 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 				int opcion;
 				opcion = JOptionPane.showConfirmDialog(this, "Desea adicionar", "SISTEMA", JOptionPane.YES_NO_OPTION);
 				if (opcion == 0) {
+					Alumno alumno=arrAlumnos.buscar(matricula.getAlumno().getCodigoAlumno());
 					Retiro nuevoRetiro=new Retiro(numRetiro, matricula, fecha,hora);
 					arRetiros.adicionar(nuevoRetiro);
 					arRetiros.crearDat(ArregloRetiros.getR());
-					matricula.getAlumno().setEstado(2);
+					alumno.setEstado(2);
+					matricula.setAlumno(alumno);
+					arrAlumnos.crearTxt(ArregloAlumnos.getLista());
 					listado();
 				}
 			}
@@ -530,6 +537,7 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 		if(arRetiros.buscar(numRetiro)==null)
 		{
 			mensaje("El numero de retiro no existe");
+			return;
 		}
 		else
 		{
@@ -542,6 +550,11 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 			else if(curso==null)
 			{
 				mensaje("No existe el curso");
+				return;
+			}
+			else if(retiro.getMatricula().getNumMatricula()!=matricula.getNumMatricula())
+			{
+				mensaje("Solo puede modificar el curso");
 				return;
 			}
 		}

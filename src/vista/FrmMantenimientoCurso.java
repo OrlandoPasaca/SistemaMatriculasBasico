@@ -344,7 +344,7 @@ public class FrmMantenimientoCurso extends JFrame implements ActionListener, Mou
 			listAlumno=arrMatriculas.findMatriculaAlumnoByCurso(curso);
 			for(Alumno alumno:listAlumno)
 			{
-				if(alumno.getEstado()==1)
+				if(alumno.getEstado()==1||alumno.getEstado()==2)
 				{
 					mensaje("Hay un alumno que esta matriculado en este curso, por lo tanto no puede eliminar este curso");
 					isPosibleDelete=false;

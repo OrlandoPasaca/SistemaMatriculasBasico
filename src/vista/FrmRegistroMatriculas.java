@@ -420,8 +420,10 @@ public class FrmRegistroMatriculas extends JFrame implements ActionListener, Mou
 				opcion = JOptionPane.showConfirmDialog(this, "Desea adicionar", "SISTEMA", JOptionPane.YES_NO_OPTION);
 				if (opcion == 0) {
 					alumno.setEstado(1);
+					
 					Matricula newMatricula=new Matricula(numMatricula, alumno, curso, fecha,hora);
 					arMatriculas.adicionar(newMatricula);
+					arrAlumnos.crearTxt(ArregloAlumnos.getLista());
 					arMatriculas.crearDat(ArregloMatrículas.getMat());
 					listado();
 					nuevaMatricula();
@@ -505,9 +507,12 @@ public class FrmRegistroMatriculas extends JFrame implements ActionListener, Mou
 				int opcion;
 				opcion = JOptionPane.showConfirmDialog(this,"Seguro eliminar la matricula con codigo ".concat(String.valueOf(numMatricula)),"Sistema",JOptionPane.YES_NO_OPTION);
 				if(opcion == 0){
+					
 					Matricula matricula=arMatriculas.findMatriculaByCodigo(numMatricula);
-					matricula.getAlumno().setEstado(0);
+					alumno.setEstado(0);
+					matricula.setAlumno(alumno);
 					ArregloMatrículas.getMat().remove(matricula);
+					arrAlumnos.crearTxt(ArregloAlumnos.getLista());
 					arMatriculas.crearDat(ArregloMatrículas.getMat());
 					listado();
 					nuevaMatricula();
