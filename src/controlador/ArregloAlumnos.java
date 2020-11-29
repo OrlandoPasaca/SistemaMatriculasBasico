@@ -21,13 +21,16 @@ public class ArregloAlumnos {
 	//constructor
 	public ArregloAlumnos(){
 		File txtFile = new File("C:\\archivos\\estudiantes.txt");
-		if(txtFile.exists()&&lista.size()==0)
+		if(txtFile.exists())
+		{
 		getTxt();
+		}
 		else
 		{
+			System.out.print("No existe");
 			lista.add(new Alumno(2020101010,"Juan José", "Huiza Huiza", "10625474", 43, 953659803, 0));
-			lista.add(new Alumno(2020101011,"Marcos", "Herrera Tavero", "10629888", 34, 889598031, 1));
-			lista.add(new Alumno(2020101012,"Lucia", "Perez Tarrillo", "10626789", 12, 779590031, 2));
+			lista.add(new Alumno(2020101011,"Marcos", "Herrera Tavero", "10629888", 34, 889598031, 0));
+			lista.add(new Alumno(2020101012,"Lucia", "Perez Tarrillo", "10626789", 12, 779590031, 0));
 			crearTxt(lista);
 		}
 		
@@ -53,7 +56,7 @@ public class ArregloAlumnos {
 		}
 		finally {
 			if (flwriter != null) {
-				try {//cierra el flujo principal
+				try {
 					flwriter.close();
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -62,6 +65,7 @@ public class ArregloAlumnos {
 	}
 	public void getTxt()
 	{
+		lista=new ArrayList<>();
 		File file = new File("C:\\archivos\\estudiantes.txt");
 		Scanner scanner;
 		try {

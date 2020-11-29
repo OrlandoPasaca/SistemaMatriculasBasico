@@ -391,6 +391,7 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 		if(opcion == 0){
 			retiro.getMatricula().getAlumno().setEstado(1);
 			ArregloRetiros.getR().remove(retiro);
+			arRetiros.crearDat(ArregloRetiros.getR());
 			listado();
 			nuevoRetiro();
 		}
@@ -451,6 +452,7 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 				if (opcion == 0) {
 					Retiro nuevoRetiro=new Retiro(numRetiro, matricula, fecha,hora);
 					arRetiros.adicionar(nuevoRetiro);
+					arRetiros.crearDat(ArregloRetiros.getR());
 					matricula.getAlumno().setEstado(2);
 					listado();
 				}
@@ -521,24 +523,37 @@ public class FrmRegistroRetiro extends JFrame implements ActionListener, MouseLi
 	/* ============================================ BOTÓN MODIFICAR ============================================== */
 	protected void actionPerformedBtnModificar(ActionEvent arg0) {
 		
-		Integer numRetiro=getNumRetiro();
-		Retiro retiro=arRetiros.buscar(numRetiro);
-		if(retiro==null)
+		Integer numRetiro=Integer.valueOf(txtNumeroRetiro.getText());
+		Retiro retiro=null;
+		Matricula matricula=getMatricula();
+		Curso curso=arrCursos.buscarCodigo(Integer.valueOf(txtCodCurso.getText()));
+		if(arRetiros.buscar(numRetiro)==null)
 		{
 			mensaje("El numero de retiro no existe");
-			return;
 		}
-		else if(retiro.getMatricula().getNumMatricula()!=Integer.valueOf(txtNumMatricula.getText()))
+		else
 		{
-			mensaje("Solo puede el curso");
-			return;
+			retiro=arRetiros.buscar(numRetiro);
+			if(matricula==null)
+			{
+				mensaje("No existe el numero de matricula");
+				return;
+			}
+			else if(curso==null)
+			{
+				mensaje("No existe el curso");
+				return;
+			}
 		}
 		
 		int opcion;
 		opcion = JOptionPane.showConfirmDialog(this,"Seguro de modificar","Sistema",JOptionPane.YES_NO_OPTION);
 		if(opcion == 0){
-			Curso curso=arrCursos.buscarCodigo(Integer.valueOf(txtCodCurso.getText()));
-			arRetiros.buscar(numRetiro).getMatricula().setCurso(curso);
+			matricula.setCurso(curso);
+			retiro.setMatricula(matricula);;
+			arrMatriculas.crearDat(ArregloMatrículas.getMat());
+			arRetiros.crearDat(ArregloRetiros.getR());
+			nuevoRetiro();
 			listado();
 		}
 	}

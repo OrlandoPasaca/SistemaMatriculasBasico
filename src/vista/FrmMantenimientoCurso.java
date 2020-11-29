@@ -10,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 
 import controlador.ArregloCursos;
 import controlador.ArregloMatrículas;
-import controlador.ArregloRetiros;
 import entidad.Alumno;
 import entidad.Curso;
 //import javafx.scene.input.KeyEvent;
@@ -36,6 +35,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.awt.event.MouseEvent;
 import java.awt.event.KeyListener;
@@ -69,7 +69,6 @@ public class FrmMantenimientoCurso extends JFrame implements ActionListener, Mou
 
 	// creando nuevo objeto de ArregloAlumnos
 	ArregloCursos arCursos = new ArregloCursos();
-	ArregloRetiros arrRetiros= new ArregloRetiros();
 	ArregloMatrículas arrMatriculas= new ArregloMatrículas();
 
 	private JButton btnNuevo;
@@ -357,6 +356,7 @@ public class FrmMantenimientoCurso extends JFrame implements ActionListener, Mou
 				return;
 			}
 			ArregloCursos.getC().remove(curso);
+			arCursos.crearTxt(ArregloCursos.getC());
 			listado();
 			nuevoCurso();
 		}
@@ -413,9 +413,10 @@ public class FrmMantenimientoCurso extends JFrame implements ActionListener, Mou
 				Curso bean = arCursos.buscarCodigo(codigo);
 				if(bean == null){//El DNI no existe
 				//Paso 2: crear un objeto
-				Curso a = new Curso(codigo, asignatura, ciclo, credito,hora);
+				Curso curso = new Curso(codigo, asignatura, ciclo, credito,hora);
 				// Paso 3: Adicionar a la tabla
-				arCursos.adicionar(a);
+				arCursos.adicionar(curso);
+				arCursos.addCursoTxt(Arrays.asList(curso));
 				// Paso 4: refrescar
 				listado();
 				}else{
@@ -508,6 +509,7 @@ public class FrmMantenimientoCurso extends JFrame implements ActionListener, Mou
 					c.setCiclo(getCiclo());
 					c.setCreditos(getCredito());
 					c.setHoras(getHora());
+					arCursos.crearTxt(ArregloCursos.getC());
 					listado();
 					}
 			}

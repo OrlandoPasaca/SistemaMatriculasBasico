@@ -16,6 +16,9 @@ import java.awt.Dimension;
 import javax.swing.border.LineBorder;
 
 import controlador.ArregloAlumnos;
+import controlador.ArregloCursos;
+import controlador.ArregloMatrículas;
+import controlador.ArregloRetiros;
 
 import javax.swing.SwingConstants;
 import javax.swing.JLabel;
@@ -59,6 +62,9 @@ public class Inicio extends JFrame implements ActionListener {
 	private JLabel lblManuelCalebCarbajal;
 	private JLabel lblOrlandoEnriquePasaca;
 	ArregloAlumnos alumnos=new ArregloAlumnos();
+	ArregloCursos cursos=new ArregloCursos();
+	ArregloMatrículas matriculas= new ArregloMatrículas();
+	ArregloRetiros retiros= new ArregloRetiros();
 	/**
 	 * Launch the application.
 	 */
@@ -208,12 +214,25 @@ public class Inicio extends JFrame implements ActionListener {
 		mntmAlumnosMatrculaPendiente.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		mnReporte.add(mntmAlumnosMatrculaPendiente);
 		
-		mntmAlumnosMatrculaPendiente_1 = new JMenuItem("Alumnos Matr\u00EDcula Pendiente");
+		mntmAlumnosMatrculaPendiente_1 = new JMenuItem("Alumnos Matr\u00EDcula Vigente");
+		mntmAlumnosMatrculaPendiente_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FrmReporteMatrVigente frmReportMatrVig=new FrmReporteMatrVigente();
+				frmReportMatrVig.setVisible(true);
+				
+			}
+		});
 		mntmAlumnosMatrculaPendiente_1.setPreferredSize(new Dimension(280, 35));
 		mntmAlumnosMatrculaPendiente_1.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		mnReporte.add(mntmAlumnosMatrculaPendiente_1);
 		
 		mntmAlumnosMatrculadosPor = new JMenuItem("Alumnos Matr\u00EDculados por Curso");
+		mntmAlumnosMatrculadosPor.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FrmReporteMatrXCurso frmReporteMatrXCurso=new FrmReporteMatrXCurso();
+				frmReporteMatrXCurso.setVisible(true);
+			}
+		});
 		mntmAlumnosMatrculadosPor.setPreferredSize(new Dimension(280, 35));
 		mntmAlumnosMatrculadosPor.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		mnReporte.add(mntmAlumnosMatrculadosPor);

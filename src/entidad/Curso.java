@@ -1,6 +1,9 @@
 package entidad;
 
-public class Curso {
+import java.io.Serializable;
+
+public class Curso implements Serializable {
+	
 	//atributos privados
 	private int codCurso;
 	private String asignatura;
@@ -15,6 +18,10 @@ public class Curso {
 		this.ciclo = ciclo;
 		this.creditos = creditos;
 		this.horas = horas;
+	}
+	public Curso()
+	{
+		
 	}
 	//métodos get and set
 	public int getCodCurso() {

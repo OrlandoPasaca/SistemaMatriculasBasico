@@ -1,10 +1,14 @@
 package controlador;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import entidad.Alumno;
 import entidad.Curso;
@@ -14,19 +18,53 @@ public class ArregloMatrículas {
 	private static List<Matricula> mat;
 	static
 	{
-		LocalDateTime hoy=LocalDateTime.now();
-		String fecha = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH).format(hoy);
-		String hora = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH).format(hoy);
-		mat = new ArrayList<>();
-		mat.add(new Matricula(10001,ArregloAlumnos.getLista().get(0) ,ArregloCursos.getC().get(0), fecha, hora));
-		mat.add(new Matricula(10002,ArregloAlumnos.getLista().get(1) ,ArregloCursos.getC().get(1), fecha, hora));
-		mat.add(new Matricula(10003,ArregloAlumnos.getLista().get(2) ,ArregloCursos.getC().get(2), fecha, hora));
+		mat=new ArrayList<>();
 	}
 	//Constructor
 	public ArregloMatrículas(){
-		
+		File datFile = new File("C:\\archivos\\arreglo-matriculas.dat");
+		if(datFile.exists())
+		getDat();
 	}
+	public void crearDat(List<Matricula> matriculas)
+	{
+		FileOutputStream fileOutputStream=null;
+		try
+		{
+		fileOutputStream=new FileOutputStream("C:\\archivos\\arreglo-matriculas.dat");
+		ObjectOutputStream ficheroMatriculas= new ObjectOutputStream(fileOutputStream);
+		ficheroMatriculas.writeObject(mat);
+		ficheroMatriculas.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (fileOutputStream != null) {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}}
+	}
+	@SuppressWarnings("unchecked")
+	public void getDat()
+	{
+		mat=new ArrayList<>();
 	
+		try {
+			FileInputStream fileOutputStream=new FileInputStream("C:\\archivos\\arreglo-matriculas.dat");
+			ObjectInputStream ficheroMatriculas= new ObjectInputStream(fileOutputStream);
+			mat=(List<Matricula>)ficheroMatriculas.readObject();
+			fileOutputStream.close();
+			ficheroMatriculas.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	public static List<Matricula> getMat() {
 		return mat;
 	}

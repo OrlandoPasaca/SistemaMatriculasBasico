@@ -1,6 +1,10 @@
 package entidad;
 
-public class Matricula {
+import java.io.Serializable;
+
+public class Matricula implements Serializable {
+	
+	
 	//atributos privados
 	private int numMatricula;
 	private Alumno alumno;

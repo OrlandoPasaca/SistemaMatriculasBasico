@@ -1,10 +1,13 @@
 package controlador;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import entidad.Matricula;
 import entidad.Retiro;
@@ -14,16 +17,51 @@ public class ArregloRetiros {
 	//constructor
 	static
 	{
-		LocalDateTime hoy=LocalDateTime.now();
-		String fecha = DateTimeFormatter.ofPattern("dd-MM-yyyy", Locale.ENGLISH).format(hoy);
-		String hora = DateTimeFormatter.ofPattern("HH:mm:ss", Locale.ENGLISH).format(hoy);
 		r = new ArrayList<Retiro>();
-		
-		r.add(new Retiro(200001,ArregloMatrículas.getMat().get(0) ,fecha,hora));
-		r.add(new Retiro(200002,ArregloMatrículas.getMat().get(1) ,fecha,hora));
-		r.add(new Retiro(200003,ArregloMatrículas.getMat().get(2) ,fecha,hora));
-
-		
+	}
+	public ArregloRetiros()
+	{
+		File datFile = new File("C:\\archivos\\arreglo-retiros.dat");
+		if(datFile.exists())
+		getDat();
+	}
+	public void crearDat(List<Retiro> retiros)
+	{
+		FileOutputStream fileOutputStream=null;
+		try
+		{
+		fileOutputStream=new FileOutputStream("C:\\archivos\\arreglo-retiros.dat");
+		ObjectOutputStream ficheroRetiros= new ObjectOutputStream(fileOutputStream);
+		ficheroRetiros.writeObject(r);
+		ficheroRetiros.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		finally {
+			if (fileOutputStream != null) {
+				try {
+					fileOutputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}}
+	}
+	@SuppressWarnings("unchecked")
+	public void getDat()
+	{
+		r=new ArrayList<>();
+	
+		try {
+			FileInputStream fileOutputStream=new FileInputStream("C:\\archivos\\arreglo-retiros.dat");
+			ObjectInputStream ficheroRetiros= new ObjectInputStream(fileOutputStream);
+			r=(List<Retiro>)ficheroRetiros.readObject();
+			fileOutputStream.close();
+			ficheroRetiros.close();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public static List<Retiro> getR() {
 		return r;
@@ -31,9 +69,7 @@ public class ArregloRetiros {
 	public static void setR(List<Retiro> r) {
 		ArregloRetiros.r = r;
 	}
-	public ArregloRetiros(){
-		
-	}
+	
 	//métodos básicos
 		public void adicionar(Retiro x){
 			r.add(x);

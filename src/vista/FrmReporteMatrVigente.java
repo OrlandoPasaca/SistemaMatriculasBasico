@@ -120,9 +120,10 @@ public class FrmReporteMatrVigente extends JFrame implements ActionListener, Key
 
 	/*===================MÉTODO LISTADO ====================*/
 	void listado(){
-		imprimir(" Alumnos registrados: ");
+		imprimir(" Alumnos Matriculados: ");
 		List<Alumno> alumnos=arAlu.findAlumnoByEstado(1);
 		txtS.append("\n");
+		if(alumnos.size()>0)
 		for(Alumno alumno:alumnos)
 		{
 			imprimir(" Codigo Alumno: " + alumno.getCodigoAlumno());
@@ -133,6 +134,10 @@ public class FrmReporteMatrVigente extends JFrame implements ActionListener, Key
 			imprimir(" Celular: " +alumno.getCelular());
 			imprimir(" Estado: " +alumno.getEstado());
 			txtS.append("\n");
+		}
+		else
+		{
+			imprimir("* No hay alumnos matriculado");
 		}
 		
 		

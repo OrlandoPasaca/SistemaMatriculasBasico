@@ -495,6 +495,7 @@ public class FrmMantenimientoAlumno extends JFrame implements ActionListener, Mo
 				opcion = JOptionPane.showConfirmDialog(this,"Seguro de eliminar","Sistema",JOptionPane.YES_NO_OPTION);
 					if( opcion == 0){
 						arAlumnos.eliminar(a);
+						arAlumnos.crearTxt(ArregloAlumnos.getLista());
 						listado();
 					}
 			}
@@ -518,6 +519,7 @@ public class FrmMantenimientoAlumno extends JFrame implements ActionListener, Mo
 				a.setEdad(getEdad());
 				a.setCelular(getCelular());
 				a.setEstado(getEstado());
+				arAlumnos.crearTxt(ArregloAlumnos.getLista());
 				listado();
 			}
 		}

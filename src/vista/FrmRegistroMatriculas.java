@@ -36,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.awt.event.MouseEvent;
@@ -421,6 +422,7 @@ public class FrmRegistroMatriculas extends JFrame implements ActionListener, Mou
 					alumno.setEstado(1);
 					Matricula newMatricula=new Matricula(numMatricula, alumno, curso, fecha,hora);
 					arMatriculas.adicionar(newMatricula);
+					arMatriculas.crearDat(ArregloMatrículas.getMat());
 					listado();
 					nuevaMatricula();
 				}
@@ -506,6 +508,7 @@ public class FrmRegistroMatriculas extends JFrame implements ActionListener, Mou
 					Matricula matricula=arMatriculas.findMatriculaByCodigo(numMatricula);
 					matricula.getAlumno().setEstado(0);
 					ArregloMatrículas.getMat().remove(matricula);
+					arMatriculas.crearDat(ArregloMatrículas.getMat());
 					listado();
 					nuevaMatricula();
 				}
@@ -515,20 +518,45 @@ public class FrmRegistroMatriculas extends JFrame implements ActionListener, Mou
 
 	/* ============================================ BOTÓN MODIFICAR ============================================== */
 	protected void actionPerformedBtnModificar(ActionEvent arg0) {
-		//Paso 1: Buscar alumno por codigo
-		Matricula m = arMatriculas.buscar(getNumMatricula());
-		//Paso 2: Validar si el alumno existe
-		if(m != null){//Alumno existe por código
-			int opcion;
-			opcion = JOptionPane.showConfirmDialog(this,"Seguro de modificar","Sistema",JOptionPane.YES_NO_OPTION);
-			if(opcion == 0){
-				m.setNumMatricula(getNumMatricula());
-				m.setAlumno(getCodAlumno());
-				m.setCurso(getCodCurso());
-				m.setFecha(getFecha());
-				listado();
+		
+		Alumno alumno=getCodAlumno();
+		Curso curso=getCodCurso();
+		Integer codMatricula=getCodigo();
+		Matricula matricula=null;
+		if(arMatriculas.buscar(codMatricula)==null)
+		{
+			mensaje("El numero de matricula no existe");
+			return;
+		}
+		else
+		{
+			matricula=arMatriculas.buscar(codMatricula);
+			if(alumno==null)
+			{
+				mensaje("El alumno no existe");
+				return;
+			}
+			else if(matricula.getAlumno().getCodigoAlumno()!=alumno.getCodigoAlumno())
+			{
+				mensaje("Solo puede modificar el curso");
+				return;
+			}
+			if(curso==null)
+			{
+				mensaje("El curso no existe");
+				return;
 			}
 		}
+		
+		int opcion;
+		opcion = JOptionPane.showConfirmDialog(this,"Seguro de modificar","Sistema",JOptionPane.YES_NO_OPTION);
+		if(opcion == 0){
+			matricula.setCurso(curso);
+			arMatriculas.crearDat(ArregloMatrículas.getMat());
+			listado();
+			nuevaMatricula();
+		}
+		
 	}
 	
 	/* ============================================ BOTÓN CERRAR ============================================== */
